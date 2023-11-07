@@ -1,6 +1,5 @@
 package com.feng.netty;
 
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -8,14 +7,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 
 import static com.google.common.net.HttpHeaders.CONTENT_LENGTH;
 
@@ -48,6 +46,7 @@ public class TestHttp {
                                     DefaultFullHttpResponse response = new DefaultFullHttpResponse(
                                             httpRequest.protocolVersion(), HttpResponseStatus.OK);
                                     byte[] bytes = "<h1>Hello, world!</h1>".getBytes();
+                                    //设置内容长度，否则浏览器不知道内容是否发送完成 会一直转圈圈
                                     response.headers().setInt(CONTENT_LENGTH,bytes.length);
                                     response.content().writeBytes(bytes);
                                     channelHandlerContext.writeAndFlush(response);
