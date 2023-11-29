@@ -17,7 +17,7 @@ public class threeSum {
             System.out.println(list.size());
         }
     }
-
+//0,0,0
  //   -4 -1 -1 0 1 2
   //  -1 0 1 2 -1 -4
     public static List<List<Integer>> threeSum(int[] nums) {
@@ -25,28 +25,28 @@ public class threeSum {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         for (int i = 0; i < nums.length ; i++) {
             int start = nums[i];
-            //定义两个双向指针 j,k
-            int j = i+1;
-            int k =nums.length-1;
-            if(k > 0 && nums[k] == nums[k - 1]){
-                continue;
-            }
             if(start>0){
                 //如果最小值都大于0,则固定值往后移动,其他的不用比较了
                 break;
             }
+            //定义两个双向指针 j,k
+            int j = i+1;
+            int k =nums.length-1;
+            if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+
             while (j < k){
                 if(start+nums[j]+nums[k]==0){
-                    List<Integer> integers = new ArrayList<>();
-                    integers.add(start);
-                    integers.add(nums[j]);
-                    integers.add(nums[k]);
-                    result.add(integers);
-
+                    result.add(Arrays.asList(start,nums[j],nums[k]));
+                    while(j<k && nums[j]==nums[j+1]) {j++;}
+                    while(j<k && nums[k]==nums[k-1]){k--;}
+                    j++;
+                    k--;
                 }else if(start+nums[j]+nums[k]<0){
-                    while(i<j && nums[j]==nums[++j]);
+                    j++;
                 }else if(start+nums[j]+nums[k]>0){
-                    while(i<j && nums[k]==nums[--k]);
+                    k--;
                 }
 
             }
